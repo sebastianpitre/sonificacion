@@ -25,7 +25,7 @@
 </head>
 <body>
     <?php
-        include 'nav.php';
+        include 'componentes/nav.php';
     ?>
 
     <div class="menu col-sm-4 col-md-2 card p-2">

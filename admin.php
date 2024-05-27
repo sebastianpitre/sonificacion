@@ -42,7 +42,7 @@
     
     <main class="main-content position-relative border-radius-lg ">
   <?php
-    include 'nav.php';
+    include 'componentes/nav.php';
   ?>
 
   <div class="mt-7 container-fluid">
