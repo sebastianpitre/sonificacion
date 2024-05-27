@@ -17,7 +17,7 @@
           <div class="container-fluid px-0">
             <a class="navbar-brand font-weight-bolder ms-sm-3" href="index.php"
               rel="tooltip" title="Designed and Coded by Creative Tim" data-placement="bottom">
-              Portafolio
+              Sonificación
             </a>
             <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse"
               data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false"

@@ -48,29 +48,87 @@
   <div class="mt-7 container-fluid">
     <div class="row mx-auto my-4">
 
-        <div class="col-md-12">
-            <div class="row">
-                <div class="card p-2">
-                  <div class="btn col-6 btn-sm btn-success" onclick="agg_lote()"> Agregar Lote</div>
-                  
-                  <?php
-                  include "conexion.php";
-                  
-                  
-                  // Consultar las muestras del lote específico
-                  $sql = "SELECT id_lote, nombre_lote, coordenada1, coordenada2, color_punto FROM lotes";
-                  $result = $conn->query($sql);
-                  
-                    if ($result->num_rows > 0) {
-                        while ($row = $result->fetch_assoc()) {
-                          echo "<div class='bg-" . $row["color_punto"] . " text-white my-1' style='background:" . $row["color_punto"] . ";'>" . $row["id_lote"] . ". " . $row["nombre_lote"] . "</div>";
-                        }
-                    } else {
-                        echo "<tr><td colspan='5'>No hay muestras para este lote</td></tr>";
-                    }
-                  ?>
+        <div class="col-12 col-lg-8">
+            <div class="card">
+                <div class="card-body">
+                    <li class="list-group-item px-0">
+                        <div class="row align-items-center">
+                            
+                            <div class="col ml-2">
+                                <h4 class="mb-0">
+                                    lotes
+                                </h4>
+                                
+                            </div>
+                            <div class="col-auto">
+                                <a onclick="agg_lote()" class="btn btn-outline-success btn-xs mb-0">Agregar</a>
+                            </div>
+                        </div>
+                    </li>
+                    <div class="table-responsive">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th
+                                    class="text-uppercase text-dark text-xxs font-weight-bolder opacity-7 ps-2">
+                                    ID</th>
+                                    <th class="text-uppercase text-dark text-xxs font-weight-bolder opacity-7">
+                                        Nombre del lote</th>
+                                    <th
+                                        class="text-uppercase text-dark text-xxs font-weight-bolder opacity-7 ps-2">
+                                        numero de muestras</th>
+                                    <th
+                                        class="text-uppercase text-dark text-xxs font-weight-bolder opacity-7 ps-2">
+                                        Opciones</th>
+                                    
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <?php
+                                include "conexion.php";
+
+                                $sql = "SELECT id_lote, nombre_lote, coordenada1, coordenada2, color_punto FROM lotes";
+                                $result = $conn->query($sql);
+
+                                if ($result->num_rows > 0) {
+                                    while ($row = $result->fetch_assoc()) {
+                                      echo '<tbody><tr>
+                                            <td><h6 class="mb-0 text-xs">' . $row["id_lote"] . '</h6></td>
+                                            <td><div class="d-flex px-2">
+                                            <div><img class="avatar avatar-sm  me-2" style="background: ' . $row['color_punto'] . '",border-radius: 50%></div>
+                                            <div class="my-auto"><h6 class="mb-0 text-xs">' . $row['nombre_lote'] . '</h6></div>
+                                            </div></td>
+                                            <td class="align-middle">#</td>
+                                            
+                                            <td class="align-middle">
+                                            <a href="muestras.php?id_lote=' . $row["id_lote"] . '" class="btn btn-link text-dark mb-0">
+                                                <span class="material-symbols-outlined opacity-6 me-1 text-xl">info</span>
+                                            </a>
+
+                                            <a class="btn btn-link text-dark mb-0">
+                                                <span class="material-symbols-outlined opacity-6 me-1 text-xl">edit</span>
+                                            </a>
+                                            
+                                            <a class="btn btn-link text-dark mb-0">
+                                                <span class="material-symbols-outlined opacity-6 me-1 text-xl">delete</span>
+                                            </a>
+                                            
+                                            </td>
+                                            </tr></tbody>';
+                                    }
+                                } else {
+                                    echo "<tr><td colspan='5'>No hay lotes registrados</td></tr>";
+                                }
+                                
+
+                                // Cerrar conexión
+                                $conn->close();
+                            ?>
+                        </table>
+                    </div>
                 </div>
             </div>
+            
             
         </div>
 
