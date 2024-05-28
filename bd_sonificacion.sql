@@ -28,3 +28,27 @@ CREATE TABLE IF NOT EXISTS muestras (
     muestra3 VARCHAR(255),
     FOREIGN KEY (id_lote) REFERENCES lotes(id_lote)
 );
+
+CREATE TABLE IF NOT EXISTS muestras2 (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_lote INT NOT NULL,
+    ph DECIMAL(4, 2) NOT NULL,
+    conductividad DECIMAL(5, 2) NOT NULL,
+    materia_organica DECIMAL(5, 2) NOT NULL,
+    fosforo DECIMAL(10, 2) NOT NULL,
+    azufre DECIMAL(10, 2) NOT NULL,
+    alh DECIMAL(10, 2) NOT NULL,
+    al DECIMAL(10, 2) NOT NULL,
+    ca DECIMAL(10, 2) NOT NULL,
+    mg DECIMAL(10, 2) NOT NULL,
+    k DECIMAL(10, 2) NOT NULL,
+    na DECIMAL(10, 2) NOT NULL,
+    cice DECIMAL(10, 2) NOT NULL,
+    fe DECIMAL(10, 2) NOT NULL,
+    mn DECIMAL(10, 2) NOT NULL,
+    zn DECIMAL(10, 2) NOT NULL,
+    cu DECIMAL(10, 2) NOT NULL,
+    b DECIMAL(10, 2) NOT NULL,
+    fecha_hora DATETIME NOT NULL,
+    FOREIGN KEY (id_lote) REFERENCES lotes(id_lote)
+);

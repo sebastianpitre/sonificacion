@@ -41,10 +41,10 @@
         
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                echo "<div class='bg-" . $row["color_punto"] . " text-white my-1' style='background:" . $row["color_punto"] . ";'>" . $row["id_lote"] . ". " . $row["nombre_lote"] . "</div>";
+                echo "<div class='bg-" . $row["color_punto"] . " text-white' style='background:" . $row["color_punto"] . ";'>" . $row["id_lote"] . ". " . $row["nombre_lote"] . "</div>";
             }
         } else {
-            echo "<tr><td colspan='5'>No hay muestras para este lote</td></tr>";
+            echo "<tr><td colspan='5'>No se encontraron lotes</td></tr>";
         }
         ?>
     </div>
@@ -115,6 +115,11 @@
                     Swal.fire({
                         title: `${nombre}`,
                         html: `
+                        Información sobre el lote, ejemplo:
+                            <br>
+                        cuantos estudios se ha realizado
+                        <br> estadisticas y mas.
+
                         `,
                         showCloseButton: true,
                         showCancelButton: false,

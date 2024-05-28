@@ -45,158 +45,59 @@
     include 'componentes/nav.php';
   ?>
 
-  <div class="mt-7 container-fluid">
+  <div class="mt-11 container-fluid">
+    <h2 class="text-center text-uppercase">Lotes registrados</h2>
     <div class="row mx-auto my-4">
+    <style>
+      .mapboxgl-ctrl-bottom-right{
+        visibility: hidden;
+      }
+    </style>
+       
+      <?php
+        include "conexion.php";
 
-        <div class="col-12 col-lg-8">
-            <div class="card">
-                <div class="card-body">
-                    <li class="list-group-item px-0">
-                        <div class="row align-items-center">
-                            
-                            <div class="col ml-2">
-                                <h4 class="mb-0">
-                                    lotes
-                                </h4>
-                                
-                            </div>
-                            <div class="col-auto">
-                                <a onclick="agg_lote()" class="btn btn-outline-success btn-xs mb-0">Agregar</a>
-                            </div>
-                        </div>
-                    </li>
-                    <div class="table-responsive">
-                        <table class="table align-items-center mb-0">
-                            <thead>
-                                <tr>
-                                    <th
-                                    class="text-uppercase text-dark text-xxs font-weight-bolder opacity-7 ps-2">
-                                    ID</th>
-                                    <th class="text-uppercase text-dark text-xxs font-weight-bolder opacity-7">
-                                        Nombre del lote</th>
-                                    <th
-                                        class="text-uppercase text-dark text-xxs font-weight-bolder opacity-7 ps-2">
-                                        numero de muestras</th>
-                                    <th
-                                        class="text-uppercase text-dark text-xxs font-weight-bolder opacity-7 ps-2">
-                                        Opciones</th>
-                                    
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <?php
-                                include "conexion.php";
+        // Consulta para obtener los lotes
+        $sql = "SELECT id_lote, nombre_lote, coordenada1, coordenada2, color_punto FROM lotes";
+        $result = $conn->query($sql);
 
-                                $sql = "SELECT id_lote, nombre_lote, coordenada1, coordenada2, color_punto FROM lotes";
-                                $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                // Consulta para contar las muestras de cada lote
+                $id_lote = $row['id_lote'];
+                $sql_count = "SELECT COUNT(*) AS total_muestras FROM muestras WHERE id_lote = $id_lote";
+                $result_count = $conn->query($sql_count);
+                $total_muestras = $result_count->fetch_assoc()['total_muestras'];
 
-                                if ($result->num_rows > 0) {
-                                    while ($row = $result->fetch_assoc()) {
-                                      echo '<tbody><tr>
-                                            <td><h6 class="mb-0 text-xs">' . $row["id_lote"] . '</h6></td>
-                                            <td><div class="d-flex px-2">
-                                            <div><img class="avatar avatar-sm  me-2" style="background: ' . $row['color_punto'] . '",border-radius: 50%></div>
-                                            <div class="my-auto"><h6 class="mb-0 text-xs">' . $row['nombre_lote'] . '</h6></div>
-                                            </div></td>
-                                            <td class="align-middle">#</td>
-                                            
-                                            <td class="align-middle">
-                                            <a href="muestras.php?id_lote=' . $row["id_lote"] . '" class="btn btn-link text-dark mb-0">
-                                                <span class="material-symbols-outlined opacity-6 me-1 text-xl">info</span>
-                                            </a>
-
-                                            <a class="btn btn-link text-dark mb-0">
-                                                <span class="material-symbols-outlined opacity-6 me-1 text-xl">edit</span>
-                                            </a>
-                                            
-                                            <a class="btn btn-link text-dark mb-0">
-                                                <span class="material-symbols-outlined opacity-6 me-1 text-xl">delete</span>
-                                            </a>
-                                            
-                                            </td>
-                                            </tr></tbody>';
-                                    }
-                                } else {
-                                    echo "<tr><td colspan='5'>No hay lotes registrados</td></tr>";
-                                }
-                                
-
-                                // Cerrar conexión
-                                $conn->close();
-                            ?>
-                        </table>
+                echo '
+                <div class="col-lg-3 col-3">
+                  <div class="card p-2 mb-4" style="border-radius: 20px; box-shadow: inset -5px -5px ' . $row['color_punto'] . ';">
+                    <div class="container">
+                      <div class="ps-lg-0">
+                        <h5 class="mb-0"> <span style="color:' . $row['color_punto'] . ';">' . $row["id_lote"] . '.</span> ' . $row['nombre_lote'] . '</h5>
+                        <h6 class="">Muestras totales: ' . $total_muestras . '</h6>
+                        <p class="mb-0 mt-n1 text-bold">' . $row['coordenada1'] . ', ' . $row['coordenada2'] . '</p>
+                      </div>
                     </div>
+                  </div>
                 </div>
-            </div>
-            
-            
-        </div>
+                ';
+            }
+        } else {
+            echo "<tr><td colspan='5'>No hay lotes registrados</td></tr>";
+        }
+
+        // Cerrar conexión
+        $conn->close();
+      ?>
 
     </div>
   </div>
 
-  <!-- Agregar lote -->
-  <script>
-    function agg_lote(){
-      Swal.fire({
-        title: `Agregar Lote nuevo`,
-        html: `
-        <form class="container" action="guardar_lote.php" method="post">
-          <div class="input-group input-group-static is-filled">
-            <label for="nombre_lote">Nombre del Lote:</label>
-            <input type="text" class="form-control" id="nombre_lote" name="nombre_lote" required>
-          </div>
-          <div class="input-group input-group-static is-filled">
-            <label for="numero_lote">Número del Lote:</label>
-            <input type="text" class="form-control" id="numero_lote" name="numero_lote" required>
-          </div>
-          <div class="input-group input-group-static is-filled">
-            <label for="coordenada1">Coordenadas en Y:</label>
-            <input type="text" class="form-control" id="coordenada1" name="coordenada1" required>
-          </div>
-          <div class="input-group input-group-static is-filled">
-            <label for="coordenada2">Coordenadas en X:</label>
-            <input type="text" class="form-control" id="coordenada2" name="coordenada2" required>
-          </div>
-
-          <style>
-            input[type="color"].custom {
-              --size: 35px;
-              width: var(--size);
-              height: var(--size);
-              background: none;
-              padding: 0;
-              border: 0;
-
-              &::-webkit-color-swatch-wrapper {
-                width: var(--size);
-                height: var(--size);
-                padding: 0;
-              }
-
-              &::-webkit-color-swatch {
-                border: 3px solid dark;
-                border-radius: 50%;
-              }
-            }
-
-          </style>
-          <div class="input-group  is-filled p-2">
-            <input type="color" class="custom" id="color_punto" name="color_punto" value="#d6d6d6" required>
-            <label class="mt-2 ms-2" for="color_punto">Seleccione el color del punto</label>
-          </div>
-
-          <button type="submit" class="btn mx-auto mt-2 btn-sm btn-success">Guardar</button>
-        </form>
-        `,
-        showCloseButton: true,
-        showCancelButton: false,
-        showConfirmButton: false,
-      });
-    }
-  </script>
-
-
+  
+  <!-- Ejecutar mapa -->
+  <script src='https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.css' rel='stylesheet' />
 
 
   <!--   Core JS Files   -->

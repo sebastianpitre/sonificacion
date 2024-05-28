@@ -59,7 +59,7 @@ $result = $conn->query($sql);
   <div class="mt-7 container-fluid">
     <div class="row mx-auto my-4">
 
-        <div class="col-12 col-lg-8">
+        <div class="col-12 col-lg-8 mx-auto">
             <div class="card">
                 <div class="card-body">
                     <li class="list-group-item px-0">
@@ -67,12 +67,12 @@ $result = $conn->query($sql);
                             
                             <div class="col ml-2">
                                 <h4 class="mb-0">
-                                    muestras
+                                    Muestras
                                 </h4>
                                 
                             </div>
-                            <div class="col-auto">
-                                <a onclick="agg_lote()" class="btn btn-outline-success btn-xs mb-0">Agregar</a>
+                            <div class="col-auto " style="display:none">
+                                <a onclick="agg_muestra()" class="btn btn-outline-success btn-xs mb-0">Agregar</a>
                             </div>
                         </div>
                     </li>
@@ -107,6 +107,7 @@ $result = $conn->query($sql);
                                             <td><h6 class="mb-0 text-xs">' . $row["muestra1"] . '</h6></td>
                                             <td><h6 class="mb-0 text-xs">' . $row["muestra2"] . '</h6></td>
                                             <td><h6 class="mb-0 text-xs">' . $row["muestra3"] . '</h6></td>
+                                            <td><span onclick="ver_muestra()" class="material-symbols-outlined cursor-pointer opacity-6 me-1 text-xl text-info">info</span></td>
                                             
                                             
                                             </tr></tbody>';
@@ -129,6 +130,26 @@ $result = $conn->query($sql);
 
     </div>
   </div>
+  <style>
+        .swal2-popup {
+            width: 90%; /* Cambia el ancho aquí */
+        }
+    </style>
+  <script>
+    function ver_muestra(){
+    Swal.fire({
+    title: `muestra`,
+    html: `
+    <img src="assets/img/muestra.png">
+    `,
+    showCloseButton: true,
+    showCancelButton: false,
+    showConfirmButton: false,
+    customClass: {popup: 'swal2-popup'}
+    });
+}
+
+  </script>
 
 
 
@@ -142,7 +163,6 @@ $result = $conn->query($sql);
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTTfWur0PDbZWPr7Pmq8K3jiDp0_xUziI"></script>
   <script src=" assets/js/material-kit.min.js?v=3.0.4" type="text/javascript"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.2.2/intro.min.js"></script>
-  <script src="assets/js/instrucciones.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="assets/js/script.js"></script>
 </body>
